@@ -5,27 +5,30 @@
 <br />
 
 <div align="center">
-  <h3>AdonisJS official documentation</h3>
-  <p>Source code and documentation for the official documentation website hosted on <a href="https://docs.adonisjs.com">docs.adonisjs.com</a></p>
+  <h3>Documentação Oficial da AdonisJS em Português</h3>
+  <p>
+    Código-fonte e documentação para página oficial da documentação hospedado na <a href="https://docs.adonisjs.com">docs.adonisjs.com</a>
+  </p>
 </div>
 
-## Setup
-Follow the below mentioned steps to setup the project on your local.
+## Configuração
 
-- Fork the repo
-- Pull the repo on your local
-- Install all dependencies using `npm install`.
-- Start the AdonisJS development server using `node ace serve --watch`
+Siga os passos mencionados abaixo para configurares o teu projeto local:
 
-**We do not follow any build process for rendering markdown to HTML**. Instead, we compile markdown files on every page request. This ensures, we do not have to run any background compilers to compile markdown and then re-compile everything on a single change. The process is as simple as
+- Bifurque o repositório
+- Empurre o repositório no teu local
+- Instale todas as dependências usando `npm install`.
+- Inicie o servidor de desenvolvimento da AdonisJS usando `node ace serve --watch`
+
+**Nós não seguimos nenhum processo para transformar documento markdown em HTML**. No lugar disto, compilamos os ficheiros em cada requisição de página. Isto garante que não tenhamos de executar nenhum compilador de fundo para compilar o markdown e depois recompilar tudo numa única mudança. O processo é tão simples quanto:
 
 ```
---> New HTTP request --> Finding markdown file for the url --> Compile and serve it
+--> Nova requisição de HTTP --> Encontrar o ficheiro markdown para a URL --> Compilá-lo e servi-lo
 ```
 
-## Environment variables
+## Variáveis de Ambiente
 
-Following environment variables are required to start the development server or create the production build.
+As seguintes variáveis de ambiente são obrigatórias para iniciar o servidor de desenvolvimento ou criar uma construção de produção:
 
 ```
 PORT=3333
@@ -38,15 +41,15 @@ ALGOLIA_API_KEY=
 COPY_REDIRECTS_FILE=false
 ```
 
-The `ALGOLIA_API_KEY` environment variable is optional and required only if you want to enable search.
+A variável de ambiente `ALGOLIA_API_KEY` é opcional e exigida apenas se quiseres ativar a pesquisa de conteúdo.
 
-If you are deploying a translated version of the docs, then set the `COPY_REDIRECTS_FILE=false`. Since the redirects file is applicable only for the official documentation to avoid breaking the `preview.adonisjs.com` URLs.
+Se estiveres a implementar em produção uma versão traduzida da documentação, então defina a `COPY_REDIRECTS_FILE=false`. Já que o ficheiro de redirecionamentos é apenas aplicável para a documentação oficial para evitar quebrar as URLs de `previw.adonisjs.com`.
 
-## Content structure
+## Estrutura do Conteúdo
 
-The markdown content is saved inside the `content` directory and each documentation type (we call them zones) has its own subfolder. 
+O conteúdo de markdown é guardado dentro do diretório `content` e cada tipo de documentação (nós as chamamos de zonas) tem sua própria sub-pasta.
 
-The navigation for the website header and the sidebar is driven by the `menu.json` file inside each zone's subdirectory.
+A navegação para cabeçalho da página e barra lateral é orientada pelo ficheiro `menu.json` dentro de cada sub-diretório da zona:
 
 ```
 content
@@ -60,7 +63,7 @@ content
     ├── menu.json
 ```
 
-The `menu.json` file has the following structure
+O ficheiro `menu.json` tem a seguinte estrutura:
 
 ```json
 {
@@ -80,71 +83,71 @@ The `menu.json` file has the following structure
 }
 ```
 
-- The top level object is the group name. You can have one or more groups inside a zone and they will be listed in a dropdown in the header nav.
-- If there is no only one group. You can name it as `root`.
-- Each group can have one or more `categories`. The categories are listed inside the sidebar.
-- The category with name `root` will not be printed in the HTML.
-- Each category can have one or more `docs`.
-- The docs further have a `title`, `permalink` and the path to the content file. **The path is relative from the zone root.**
+- O objeto de alto nível é nome do grupo. Tu podes ter um ou mais grupos dentro duma zona e serão listados num menu deslizante na navegação do cabeçalho.
+- Se não houver nenhum grupo. Tu podes nomeia-lo como `root`.
+- Cada grupo pode ter um ou mais `categories`. As categorias são listadas dentro da barra lateral.
+- A categoria com nome `root` não será impressa no HTML.
+- Cada categoria pode ter um ou mais `docs`.
+- A documentação ainda tem um `title`, `permalink` e o caminho para o ficheiro de conteúdo. **O caminho é relativo da zona raiz.**
 
-## Rendering HTML
+## Gerando o HTML
 
-We make use of a self written [@dimerapp/content](https://npm.im/@dimerapp/content) module to render markdown to HTML using Edge templates in the middle.
+Nós fazemos uso dum módulo [@dimerapp/content](https://npm.im/@dimerapp/content) escrito por nós para transformar o markdown em HTML usando modelos de marcação de Edge no meio.
 
-We begin by first converting Markdown to an AST and then render each node of the AST using Edge templates. This allow to spit custom markup. Checkout the [./resources/views/elements](./resources/views/elements) directory to see how we are using it.
+Nós começamos primeiro por converter o Markdown numa Árvore de Sintaxe Abstrata e depois transformamos cada nó Árvore de Sintaxe Abstrata usando os modelos de marcação de Edge. Isto permite separar o markdown personalizado. Consulte o diretório [./resources/views/elements](./resources/views/elements) para veres como estamos a usá-lo.
 
-The code blocks are rendered using the [shiki](https://github.com/shikijs/shiki). The module uses VsCode grammar and themes to process the code blocks. Also, code blocks are processed on the backend and the client receives formatted HTML.
-
-
-## Configuring `@dimerapp/content`
-
-The `@dimerapp/content` module does not come with any CLI or opinions on how the content should be structured. 
-
-So we have to self configure `@dimerapp/content` module. This is done inside the `start/content.ts` file, which relies on the `config/markdown.ts` file.
+Os blocos de código são gerados usando o [shiki](https://github.com/shikijs/shiki). O módulo usa a gramática e temas do Visual Studio Code para processar os blocos de código. Além disto, os blocos de código são processados no backend e cliente recebe o HTML formatado.
 
 
-## CSS and frontend JavaScript
+## Configurando o `@dimerapp/content`
 
-The styles are written in Vanilla CSS and stored inside the `./resources/css` directory. To organize things a bit, we have split them inside multiple `.css` files.
+O módulo `@dimerapp/content` não vem com nenhuma interface da linha de comando ou opções sobre como o conteúdo deveria ser estruturado.
 
-We also make use of Alpine.js for adding small interactive components, like the header nav dropdown and the codegroup toggle.
+Então temos de configurar o módulo `@dimerapp/content`. Isto é feito dentro do ficheiro `start/content.ts`, que depende do ficheiro `config/markdown.ts`.
 
-The `@hotwire/turbo` is used to navigate between pages without doing a complete refresh.
 
-### Custom JS Hacks
+## CSS e JavaScript de Frontend
 
-Re-rendering HTML pages resets the scroll position of the sidebar, which is kind of annoying. So we make use of turbo  events `turbo:before-render` and `turbo:render` to store the sidebar position and then restore it after navigation.
+Os estilos são escritos em CSS puro e armazenados dentro do diretório `./resources/css`. Para organizarmos um pouco as coisas, temos de separá-los dentro de vários ficheiros `.css`.
 
-On first page visit, we scroll the active sidebar item into the view using the `scrollIntoView` method.
+Nós também fazemos uso de `alpine.js` para adicionar pequenos componentes interativos, como deslize da navegação de cabeçalho e a alternância do grupo de código.
 
-## Deployment
+O `@hotwire/turbo` é usado para navegar entre as páginas sem fazer uma atualização completa.
 
-Run the following command to create the production build. 
+### JavaScript Personalizado
 
-```
+O redesenho das páginas de HTML reinicia a posição do deslocamento da barra lateral, o que é um pouco irritante. Então fazemos uso de eventos de turbo `turbo:before-render` e `turbo:render` para armazenar a posição da barra lateral e então restaurá-lo depois da navegação.
+
+No primeiro carregamento da página, deslocamos o item da barra lateral ativo para a visão usando o método `scrollIntoView`.
+
+## Implementação em Produção
+
+Execute o seguinte comando para criar a construção de produção.
+
+```sh
 npm run build
 ```
 
-The output is written to the `public` directory and you can deploy it on any host capable of serving static files.
+A saída é escrita no diretório `public` e podes servi-lo em qualquer hospedeiro capaz de servir ficheiros estáticos.
 
-The official website is hosted on [pages.cloudflare.com](https://pages.cloudflare.com/)
+A página oficial está hospedada na [pages.cloudflare.com](https://pages.cloudflare.com/)
 
-### Important environment variables
+### Variáveis de Ambientes Importantes
 
-The `ALGOLIA_API_KEY` environment variable is optional and required only if you want to enable search.
+A variável de ambiente `ALGOLIA_API_KEY` é opcional e exigida apenas se quiseres ativar a pesquisa de conteúdo.
 
-If you are deploying a translated version of the docs, then set the `COPY_REDIRECTS_FILE=false`. Since the redirects file is applicable only for the official documentation to avoid breaking the `preview.adonisjs.com` URLs.
+Se estiveres a implementar em produção uma versão traduzida da documentação, então defina a `COPY_REDIRECTS_FILE=false`. Já que o ficheiro de redirecionamentos é apenas aplicável para a documentação oficial para evitar quebrar as URLs de `previw.adonisjs.com`.
 
-## Translating docs to different languages
+## Traduzindo a Documentação para Idiomas Diferentes
 
-You are free to fork this repo and translate docs to different languages and publish them on a separate subdomain.
+Tu estás livre de bifurcar este repositório e traduzir a documentação para diferentes idiomas e publicá-los num sub-domínio separado.
 
-> Disclaimer: The translated documentation is considered a community effort. The website and translations are/will never be supported or maintained by the core team.
+> Desmentido: A documentação traduzida é considerada um esforço da comunidade. A página e traduções nunca serão suportadas ou mantidas pela equipa principal.
 
-### Process for translating docs
+### Processo de Tradução da Documentação
 
-- Notify everyone about the translated docs on this [pinned issue](https://github.com/adonisjs/docs.adonisjs.com/issues/1).
-- We can issue you a subdomain for the language once you have translated more than 50% of the docs.
-- As the documentation is updated on the official website, we will drop a link to the PR on the [pinned issue](https://github.com/adonisjs/docs.adonisjs.com/issues/1) and you can pull back those changes.
-- We recommend not localizing the URLs. Just translate the docs content.
-- Feel free to send a PR to Algolia for indexing the translated website. Here is a [reference to algolia config](https://github.com/algolia/docsearch-configs/blob/master/configs/adonisjs_next.json) for the official website.
+- Notifique a todos sobre a documentação traduzida nesta [questão fixada](https://github.com/adonisjs/docs.adonisjs.com/issues/1).
+- Nós podemos entregar-te um sub-domínio para o idioma uma vez que tiveres traduzido mais de 50% da documentação.
+- A medida que a documentação for atualizada na página oficial, deixaremos uma ligação para o pedido de atualização na [questão fixada](https://github.com/adonisjs/docs.adonisjs.com/issues/1) e podes empurrar de volta aquelas mudanças.
+- Nós recomendados não localizar as URLs. Apenas traduza o conteúdo da documentação.
+- Sinta-se livre para enviar um pedido de atualização para a Algolia para indexar o página traduzida. Cá está uma [referência para a configuração da algolia](https://github.com/algolia/docsearch-configs/blob/master/configs/adonisjs_next.json) da página oficial.
