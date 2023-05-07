@@ -1,64 +1,66 @@
 ---
-summary: Technical introduction to the framework and documentation structure.
+summary: Introdução Técnica a Estrutura da Abstração e da Documentação.
 ---
 
-Welcome to AdonisJS!
+Bem-vindo à AdonisJS!
 
-This is the official documentation website for the framework. We have divided the documentation into multiple groups, each trying to address a specific use case or audience.
+Esta é a página da documentação oficial da abstração. Nós dividimos a documentação em vários grupos, e cada tentando tratar um caso de uso específico ou audiência.
 
-Please read the [AdonisJS at a glance](https://adonisjs.com/adonisjs-at-a-glance) document if you are unsure whether AdonisJS will fit your needs or match the programming style.
+Leia o documento [AdonisJS em uma vista de olhos](https://adonisjs.com/adonisjs-at-a-glance) se estiveres incerto se a AdonisJS servirá ou corresponderá as tuas necessidades e estilo de programação.
 
 :::tip
-**Visual learner?** - Checkout the [Let's Learn AdonisJS](https://adocasts.com/series/lets-learn-adonisjs-5/lesson/1) free screencasts series from our friends at Adocasts.
+**Estudante visual?** - Consulte a série gratuita de vídeos [Vamos Aprender AdonisJS](https://adocasts.com/series/lets-learn-adonisjs-5/lesson/1) dos nossos amigos na Adocasts.
 :::
 
-## TypeScript usage
+## Uso da TypeScript
 
-AdonisJS is a backend framework for Node.js. The framework is written in TypeScript, and the application you will create using AdonisJS is also going to be in TypeScript.
+A AdonisJS é uma abstração de backend para Node.js. A abstração é escrita em TypeScript, e a aplicação que criarás usando a AdonisJS também será em TypeScript.
 
-We are very particular about how we leverage TypeScript and maintain a good balance between the static type safety and the visual noise.
+Nós estamos muito específicos sobre como influenciamos a TypeScript e mantemos um bom balanço entre a segurança de tipo estático e o ruído visual.
 
-If you have never used TypeScript, we recommend learning the basics of the language first and then using AdonisJS.
+Se nunca usaste a TypeScript, recomendamos aprender os fundamentos da linguagem primeiro e depois usar a AdonisJS.
 
-## Familiarity with Node.js 
+## Familiaridade com a Node.js
 
-We also expect you to be familiar with the Node.js ecosystem and asynchronous programming in general. Suppose you are coming from a threaded language like PHP or Ruby. In that case, we recommend educating yourself with the Node.js event loop and understand how it is different from a threaded environment.
+Nós também esperamos que estejas familiarizado com o ecossistema da NOde.js e a programação assíncrona em geral. Suponhamos que estejas a vir de uma linguagem encadeada como PHP ou Ruby. Neste caso, recomendamos que estudes o laço de evento da Node.js e entendas como é diferente de um ambiente encadeado.
 
-## Documentation
+## Documentação
 
-### Guides
+### Guias
 
-The technical guides are the in-depth documentation of the framework and cover every single topic and feature of the framework.
+Os guias técnicos são a documentação profunda da abstração e cobrem cada tópico e funcionalidade da abstração.
 
-The guides also have documentation for the official packages of AdonisJS, i.e., Lucid ORM, template engine, Redis, and so on.
+Os guias também têm a documentação para os pacotes oficiais da AdonisJS, por exemplo, Mapeamento de Objeto Relacional Lucid, Motor de Modelo de Marcação, Redis, assim por diante.
 
-### Reference
+### Referência
 
-Modules with larger API surfaces like **Database** and **Validator** are also documented inside the reference guides.
+Os módulos com maiores superficies de API como **Base de Dados** e **Validação** também são documentados dentro das guias de referência.
 
-Fitting all the validation rules, the database query builder methods within guides will overcrowd them, and hence they are moved to the reference guides.
+Servir todas as regras de validação, métodos construtores de consulta de base de dados dentro das guias os sobrecarregaria, por isto foram movidas para as guias de referências.
 
-### Cookbooks
+### Receitas
 
-Cookbooks are actionable guides to help you achieve a practical task. Also, feel free to contribute to cookbooks by sending a PR.
+As receitas são guias práticos para ajudar-te a realizar uma tarefa prática. Além disto, sinta-se livre para contribuir com as receitas enviando um pedido de atualização. 
 
-## How to ask for help?
-At AdonisJS we have a friendly and helpful community always eager to help each other. You can join our [Discord channel](https://discord.gg/vDcEjq6), or use [Github Discussions](https://github.com/adonisjs/core/discussions) when seeking help.
+## Como Pedir Ajuda?
 
-We also encourage you to help others whenever possible 💗
+Na AdonisJS temos uma comunidade amigável e útil que sempre ansiosos para ajudarem-se uns aos outros. Tu podes juntar-te ao nosso [canal da Discord](https://discord.gg/vDcEjq6),, ou usar [Discussões da GitHub](https://github.com/adonisjs/core/discussions) quando procurares por ajuda.
 
-## Resources
+Nós também encorajamos-te a ajudar os outros sempre que possível 💗
 
-- [Newsletter](https://news.adonisjs.com) - Receive framework and community updates directly in your Inbox. No spam. Max 1 email a month.
-- [Twitter](https://twitter.com/adonisframework) - Stay upto date.
-- [VS Code extension](https://marketplace.visualstudio.com/items?itemName=jripouteau.adonis-vscode-extension) - An official VS Code extension to sky rocket your development experience.
-- [Awesome AdonisJS](https://github.com/adonisjs-community/awesome-adonisjs) - A collection of packages, tutorials and applications created by the community members.
+## Recursos
 
-## Who maintains AdonisJS?
-AdonisJS is primarly maintained by [Harminder Virk](https://twitter.com/AmanVirk1) (the creator and the lead maintainer of the framework) along with the help of the following core team members.
+- [Boletim Informativo](https://news.adonisjs.com) - receba atualizações da abstração e comunidade diretamente na tua caixa de mensagens. Sem spam. Um correio-eletrónico no máximo por mês.
+- [Twitter](https://twitter.com/adonisframework) - mantenha-te atualizado.
+- [Extensão de VS Code](https://marketplace.visualstudio.com/items?itemName=jripouteau.adonis-vscode-extension) - uma extensão de VS Code oficial para lançar para o céu o foguete da tua experiência de programação.
+- [awesome-adonisjs](https://github.com/adonisjs-community/awesome-adonisjs) - uma coleção de pacotes, passos-a-passos e aplicações criadas pelos membros da comunidade.
 
-- [Romain Lanz](https://twitter.com/romainlanz) is a full-stack developer at the FIVB. He believes that knowledge should be free and accessible for anyone, and he is working towards it.
-- [Michaël Zasso](https://twitter.com/targos89) is a scientific research software engineer and a member of the Node.js Technical Steering Committee.
-- [Julien Ripouteau](https://twitter.com/julien_rpt) is a french developer with a passion for Javascript and Open Source. He is also the creator of the [AdonisJS VsCode extension](https://marketplace.visualstudio.com/items?itemName=jripouteau.adonis-vscode-extension), [AdonisJS Sail](https://github.com/Julien-R44/adonis-sail) and the [packages.adonisjs.com](https://packages.adonisjs.com) website.
+## Quem Mantém a AdonisJS?
+
+A AdonisJS é primariamente mantida pelo [Harminder Virk](https://twitter.com/AmanVirk1) (o criador e responsável líder da abstração) juntamente com a ajuda dos seguintes membros da equipa principal:
+
+- [Romain Lanz](https://twitter.com/romainlanz) é um desenvolvedor full-stack na FIVB. Ele acredita que o conhecimento deve ser livre e acessível a todos, e ele está trabalhando em prol disto.
+- [Michaël Zasso](https://twitter.com/targos89) é um engenheiro de software de pesquisa científica e um membro do Comité da Direção Técnica da Node.js.
+- [Julien Ripouteau](https://twitter.com/julien_rpt) é um desenvolvedor francês com uma paixão por JavaScript e Código-Aberto. Ele também é o criador da [extensão de VSCode de AdonisJS](https://marketplace.visualstudio.com/items?itemName=jripouteau.adonis-vscode-extension), [AdonisJS Sail](https://github.com/Julien-R44/adonis-sail) e o sítio [packages.adonisjs.com](https://packages.adonisjs.com).
 
 ::collaborators
