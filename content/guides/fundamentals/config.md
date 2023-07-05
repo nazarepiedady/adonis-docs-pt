@@ -1,20 +1,23 @@
 ---
-summary: The config module to manage and provide application config to the installed packages.
+summary: O módulo de configuração para gerir e fornecer a configuração da aplicação aos pacotes instalados.
 ---
 
-The runtime configuration of your AdonisJS application is stored inside the `config` directory. The framework core and many of the installed packages rely on these configuration files. So make sure to go through the configuration files and tweak any settings (if necessary).
+A configuração de tempo de execução na tua aplicação de AdonisJS é guardada dentro do diretório `config`. O núcleo da abstração e muitos dos pacotes instalados dependem destes ficheiros de configuração. Então certifica-te de passar pelos ficheiros de configuração e fazer pequenas melhorias em quaisquer definições (se necessário).
 
-We also recommend storing all the custom configs required by your app inside this directory versus storing them in multiple places.
+Nós também recomendamos guardar todos as configurações personalizados exigidas pela tua aplicação dentro deste diretório contra guardá-los em vários lugares.
 
-## Import config files
-You can import the configuration files within your application codebase using the `import` statement. For example:
+## Importar os Ficheiros Configuração
+
+Tu podes importar os ficheiros de configuração dentro da base de código da tua aplicação usando a declaração `import`. Por exemplo:
 
 ```ts
 import { appKey } from 'Config/app'
 ```
 
-## Using the config provider
-Instead of directly importing the config files, you can also make use of the `Config` provider as follows:
+## Usando o Provedor de Configuração
+
+
+No lugar de importar diretamente os ficheiros de configuração, também podes fazer uso do provedor `Config` como se segue:
 
 ```ts
 import Config from '@ioc:Adonis/Core/Config'
@@ -22,22 +25,22 @@ import Config from '@ioc:Adonis/Core/Config'
 Config.get('app.appKey')
 ```
 
-The `Config.get` method accepts a dot-separated path to the configuration key. In the above example, we read the `appKey` property from the `config/app.ts` file.
+O método `Config.get` aceita um caminho separado por ponto para a chave da configuração. No exemplo acima, lemos a propriedade `appKey` a partir do ficheiro `config/app.ts`.
 
-Also, you can define a fallback value. The fallback value is returned when the actual configuration value is missing.
+Além disto, podes definir um valor de retorno. O valor de retorno é retornado quando o valor da configuração verdadeira estiver em falta:
 
 ```ts
 Config.get('database.connections.mysql.host', '127.0.0.1')
 ```
 
-There are no direct benefits of using the Config provider over manually importing the config files. However, the Config provider is the only choice in the following scenarios.
+Não existe nenhum beneficio direto em usar o provedor `Config` sobre a importação manual dos ficheiros de configuração. No entanto, o provedor `Config` é a única escolha nos seguintes cenários.
 
-- **External packages**: External packages should never rely on the file path to read/import the config. Instead, it should make use of the `Config` provider. Using the Config provider creates a loose coupling between the application and the package.
-- **Edge templates**: The template files can use the [config](../../reference/views/globals/all-helpers.md#config) global method to reference the configuration values.
+- **Pacotes externos**: Pacotes externos nunca devem depender do caminho do ficheiro para ler e importar a configuração. Ao invés disso, deve fazer uso do provedor `Config`. O uso do provedor `Config` cria um acoplamento solto entre a aplicação e o pacote.
+- **Modelos de marcação de Edge**: Os ficheiros de modelos de marcação podem usar o método de [configuração](../../reference/views/globals/all-helpers#config) global para referirem-se aos valores de configuração.
 
-## Changing the config location
+## Mudando a Localização da Configuração
 
-You can update the location for the config directory by modifying the `.adonisrc.json` file.
+Tu podes atualizar a localização para o diretório de configuração modificando o ficheiro `.adonisrc.json`:
 
 ```json
 "directories": {
@@ -45,16 +48,16 @@ You can update the location for the config directory by modifying the `.adonisrc
 }
 ```
 
-The config provider will automatically read the file from the newly configured directory, and all the underlying packages relying on the config files will work fine.
+O provedor de configuração lerá automaticamente o ficheiro a partir do diretório configurado recentemente, e todos os pacotes subjacentes que dependem dos ficheiros de configuração funcionarão perfeitamente.
 
-## Caveats
+## Advertências
 
-All the config files inside the `config` directory are imported automatically by the framework during the boot phase. As a result of this, your config files should not rely on the container bindings.
+Todos os ficheiros de configuração dentro do diretório `config` são importados automaticamente pela abstração durante a fase de inicialização. Como resultado disto, os teus ficheiros de configuração não deveriam depender das ligações do contentor.
 
-For example, the following code will break as it tries to import the `Route` provider even before it is registered to the container.
+Por exemplo, o seguinte código quebrará visto que tenta importar o provedor `Route` mesmo antes de ser registado ao contentor.
 
 ```ts
-// ❌ Does not work
+// ❌ Não funciona
 import Route from '@ioc:Adonis/Core/Route'
 
 const someConfig = {
@@ -62,12 +65,12 @@ const someConfig = {
 }
 ```
 
-You might consider this limitation bad. However, it has a positive impact on the application design.
+Tu podes considerar esta limitação algo mau. No entanto, tem um impacto positivo sobre o desenho da aplicação.
 
-Fundamentally, your runtime code should rely on the config and NOT the other way around. For example:
+Fundamentalmente, o teu código de tempo de execução deveria depender da configuração e NÃO o contrário. Por exemplo:
 
 :::caption{for="error"}
-Do not derive config from the runtime code (Model in this case)
+Não derive a configuração a partir do código de tempo de execução (Modelo neste caso).
 :::
 ```ts
 import User from 'App/Models/User'
@@ -78,7 +81,7 @@ const someConfig = {
 ```
 
 :::caption{for="success"}
-Instead, make your model read the table from the config file
+No lugar disto que está acima, faça o teu modelo ler a tabela a partir do ficheiro de configuração.
 :::
 
 ```ts
@@ -95,22 +98,22 @@ class User extends Model {
 }
 ```
 
-## Config reference
+## Referência da Configuração
 
-As you install and configure AdonisJS packages, they may create new config files. Following is a list of config files (with their default templates) used by the different parts of the framework.
+Conforme instalares e configurares os pacotes de AdonisJS, eles podem criar novos ficheiros de configuração. A seguir está uma lista de ficheiros de configuração (com seus moldes padrão) usado pelas diferentes partes da abstração.
 
-| Config file | Stub | Used by |
+| Ficheiro de Configuração | Talão | Usado pelo |
 |------------|------|----------|
-| `app.ts` | https://git.io/JfefZ | Used by the framework's core, including the HTTP server, logger, validator, and the assets manager. |
-| `bodyparser.ts` | https://git.io/Jfefn | Used by the bodyparser middleware |
-| `cors.ts` | https://git.io/JfefC | Used by the CORS server hook |
-| `hash.ts` | https://git.io/JfefW | Used by the hash package |
-| `session.ts` | https://git.io/JeYHp | Used by the session package |
-| `shield.ts` | https://git.io/Jvwvt | Used by the shield package
-| `static.ts` | https://git.io/Jfefl | Used by the static file server |
-| `auth.ts` | https://git.io/JY0mp | Used by the auth package |
-| `database.ts` | https://git.io/JesV9 | Used by Lucid ORM |
-| `mail.ts` | https://git.io/JvgAf | Used by the AdonisJS mail package |
-| `redis.ts` | https://git.io/JemcF | Used by the Redis package |
-| `drive.ts` | https://git.io/JBt3o | Used by the Drive provider |
-| `ally.ts` | https://git.io/JOdi5 | Used by the Social authentication package (Ally) |
+| `app.ts` | https://git.io/JfefZ | Usado pelo núcleo da abstração, incluindo o servidor HTTP, registador de relatório, validador, e o gestor de recursos. |
+| `bodyparser.ts` | https://git.io/Jfefn | Usado pelo intermediário `bodyparser` |
+| `cors.ts` | https://git.io/JfefC | Usado pelo gatilho de servidor CORS |
+| `hash.ts` | https://git.io/JfefW | Usado pelo pacote de `hash` |
+| `session.ts` | https://git.io/JeYHp | Usado pelo pacote de sessão |
+| `shield.ts` | https://git.io/Jvwvt | Usado pelo pacote de proteção
+| `static.ts` | https://git.io/Jfefl | Usado pelo servidor de ficheiro estático |
+| `auth.ts` | https://git.io/JY0mp | Usado pelo pacote de autenticação |
+| `database.ts` | https://git.io/JesV9 | Usado pela ORM Lucid |
+| `mail.ts` | https://git.io/JvgAf | Usado pelo pacote de correio da AdonisJS |
+| `redis.ts` | https://git.io/JemcF | Usado pelo pacote de Redis |
+| `drive.ts` | https://git.io/JBt3o | Usado pelo provedor de Drive |
+| `ally.ts` | https://git.io/JOdi5 | Usado pelo pacote de autenticação Social (Ally) |
