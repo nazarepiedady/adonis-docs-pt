@@ -1,13 +1,13 @@
 ---
 previewCode: >
-  // View file contents + defaults
+  // visualizar o conteúdo e padrões do ficheiro.
   node ace dump:rcfile
-summary: The adonisrc.json file configures the workspace and some of the runtime settings of an AdonisJS application. It also allows you to override the default conventions around the file structure.
+summary: O ficheiro adonisrc.json configura o espaço de trabalho e algumas definições de execução duma aplicação de AdonisJS. Ele também permite-te sobrepor as convenções padrão em torno da estrutura de ficheiro.
 ---
 
-The `.adonisrc.json` file is stored inside the root of your project. It configures the workspace and some of the runtime settings of your AdonisJS application.
+O ficheiro `.adonisrc.json` é armazenado dentro da raiz do teu projeto. Ele configura o espaço de trabalho e algumas definições de execução da tua aplicação de AdonisJS.
 
-The file only contains the minimum required configuration to run your application. However, you can view the complete file contents by running the following Ace command.
+O ficheiro contém apenas a mínima configuração exigida para executares a tua aplicação. No entanto, podes visualizar o conteúdo completo do ficheiro executando o seguinte comando:
 
 ```sh
 node ace dump:rcfile
@@ -126,15 +126,17 @@ node ace dump:rcfile
 }
 ```
 
-### typescript
-The `typescript` property informs the framework and the Ace commands that your application is using TypeScript. Currently, this value is always set to `true`. However, we will later allow applications to be written in JavaScript as well.
+### `typescript`
+
+A propriedade `typescript` informa para abstração e os comandos de `ace` que a tua aplicação está usando TypeScript. Atualmente, este valor é sempre definido para `true`. No entanto, permitiremos depois as aplicações serem escritas em JavaScript também.
 
 ---
 
-### directories
-An object of known directories and their pre-configured paths. You can change the path to match your requirements.
+### `directories`
 
-Also, all the Ace `make` commands references the `.adonisrc.json` file before creating the file.
+Um objeto de diretórios conhecidos e os seus caminhos pré-configurados. Tu podes mudar o caminho para corresponder aos teus requisitos.
+
+Além disto, todos os comandos `make` de `ace` fazem referência ao ficheiro `.adonisrc.json` antes de criarem o ficheiro:
 
 ```json
 {
@@ -157,8 +159,9 @@ Also, all the Ace `make` commands references the `.adonisrc.json` file before cr
 
 ---
 
-### exceptionHandlerNamespace
-The namespace to the class that handles exceptions occurred during an HTTP request.
+### `exceptionHandlerNamespace`
+
+O espaço de nome para a classe que manipula as exceções ocorridas durante uma requisição de HTTP:
 
 ```json
 {
@@ -168,21 +171,22 @@ The namespace to the class that handles exceptions occurred during an HTTP reque
 
 ---
 
-### preloads
-An array of files to load at the time of booting the application. The files are loaded right after booting the service providers.
+### `preloads`
 
-You can define the environment in which to load the file. The valid options are:
+Um arranjo de ficheiros para carregar no momento de inicializar a aplicação. Os ficheiros são carregados imediatamente depois de inicializar os provedores de serviços.
 
-- `web` environment refers to the process started for the HTTP server.
-- `console` environment refers to the Ace commands except for the `repl` command.
-- `repl` environment refers to the process started using the `node ace repl` command.
-- Finally, `test` environment is reserved for the future when AdonisJS will have the inbuilt test runner.
+Tu podes definir o ambiente no qual carregar o ficheiro. As opções válidas são:
 
-Also, you can mark the file as optional, and we will ignore it if the file is missing on the disk.
+- `web`: refere-se ao processo iniciado para o servidor de HTTP.
+- `console`: refere-se aos comandos de `ace` exceto para o comando `repl`.
+- `repl`: refere-se ao processo iniciado usando o comando `node ace repl`.
+- `test`: é reservado para o futuro quando a AdonisJS ter o executor de teste embutido.
+
+Além disto, podes marcar o ficheiro como opcional, e o ignoraremos se o ficheiro estiver em falta no disco.
 
 :::note
 
-You can create and register a preloaded file by running the `node ace make:prldfile` command.
+Tu podes criar e registar um ficheiro pré-carregado executando o comando `node ace make:prldfile`.
 
 :::
 
@@ -204,10 +208,11 @@ You can create and register a preloaded file by running the `node ace make:prldf
 
 ---
 
-### namespaces
-An object of namespaces for the known entities.
+### `namespaces`
 
-For example, you can change the controller's namespace from `App/Controllers/Http` to `App/Controllers` and keep the controllers inside the `./app/Controllers` directory.
+Um objeto de espaços de nome para entidades conhecidas.
+
+Por exemplo, podes mudar o espaço de nome do controlador de `App/Controllers/Http` para `App/Controllers` e manter os controladores dentro do diretório `./app/Controllers`:
 
 ```json
 {
@@ -219,16 +224,17 @@ For example, you can change the controller's namespace from `App/Controllers/Htt
 
 ---
 
-### aliases
-The `aliases` property allows you to define the import aliases for specific directories. After defining the alias, you will be able to import files from the root of the aliases directory.
+### `aliases`
 
-In the following example, the `App` is an alias for the `./app` directory, and the rest is the file path from the given directory.
+A propriedade `aliases` permite-te definir os pseudónimos de importação para diretórios específicos. Depois de definir o pseudónimo, serás capaz de importar os ficheiros a partir da raiz do diretório de pseudónimos.
+
+No seguinte exemplo, o `App` é um pseudónimo para o diretório `./app`, e o resto é o caminho de ficheiro a partir do dado diretório:
 
 ```ts
 import 'App/Models/User'
 ```
 
-AdonisJS aliases are for runtime only. You will also have to register the same alias inside the `tsconfig.json` file for the TypeScript compiler to work.
+Os pseudónimos da AdonisJS são apenas para o momento da execução. Tu também terás de registar o mesmo pseudónimo dentro do ficheiro `tsconfig.json` para o compilador de TypeScript funcionar:
 
 ```json
 {
@@ -244,11 +250,12 @@ AdonisJS aliases are for runtime only. You will also have to register the same a
 
 ---
 
-### metaFiles
-The `metaFiles` array accepts the files you want AdonisJS to copy to the `build` folder when creating the production build.
+### `metaFiles`
 
-- You can define the file paths as a glob pattern, and we will copy all the matching files for that pattern.
-- You can also instruct the development server to reload any files inside the matching pattern changes.
+O arranjo `metaFiles` aceita os ficheiros que quiseres que a AdonisJS copie para a pasta `build` quando criar a construção de produção.
+
+- Tu podes definir os caminhos de ficheiro como um padrão glob, e copiaremos todos os ficheiros correspondentes para este padrão.
+- Tu podes também instruir o servidor de desenvolvimento a recarregar quaisquer ficheiros dentro das mudanças do padrão correspondente.
 
 ```json
 {
@@ -267,8 +274,9 @@ The `metaFiles` array accepts the files you want AdonisJS to copy to the `build`
 
 ---
 
-### commands
-An array of paths to lookup/index Ace commands. You can define a relative path like `./command` or path to an installed package.
+### `commands`
+
+Um arranjo de caminhos para procurar ou indexar comandos de `ace`. Tu podes definir um caminho relativo como `./command` ou caminho para um pacote instalado:
 
 ```json
 {
@@ -281,8 +289,9 @@ An array of paths to lookup/index Ace commands. You can define a relative path l
 
 ---
 
-### commandsAliases
-A key-value pair of command aliases. This is usually to help you create memorable aliases for the commands that are harder to type or remember.
+### `commandsAliases`
+
+Um par de chave-valor de pseudónimos de comando. Isto é normalmente para ajudar-te a criar pseudónimos memorizáveis para os comandos que são mais difíceis de digitar ou lembrar:
 
 ```json
 {
@@ -292,7 +301,7 @@ A key-value pair of command aliases. This is usually to help you create memorabl
 }
 ```
 
-You can also define multiple aliases by adding multiple entries.
+Tu também podes definir vários pseudónimos adicionado várias entradas:
 
 ```json
 {
@@ -305,8 +314,9 @@ You can also define multiple aliases by adding multiple entries.
 
 ---
 
-### tests
-The `test` object holds the collection of test suites used by your application. You can add/remove suites as per your application requirements.
+### `tests`
+
+O objeto `test` segura a coleção de grupos de teste usada pela tua aplicação. Tu podes adicionar ou remover os grupos de acordo com os requisitos da tua aplicação:
 
 ```json
 {
@@ -326,8 +336,9 @@ The `test` object holds the collection of test suites used by your application. 
 
 ---
 
-### providers
-An array of service providers to load during the application boot cycle. The providers mentioned inside this array are loaded in all the environments.
+### `providers`
+
+Um arranjo de provedores de serviço à carregar durante o ciclo de inicialização da aplicação. Os provedores mencionados dentro deste arranjo são carregados em todos os ambientes:
 
 ```json
 {
@@ -340,8 +351,9 @@ An array of service providers to load during the application boot cycle. The pro
 
 ---
 
-### aceProviders
-An array of providers required the ace commands.
+### `aceProviders`
+
+Um arranjo de provedores exigido pelos comandos de `ace`:
 
 ```json
 {
@@ -353,8 +365,9 @@ An array of providers required the ace commands.
 
 ---
 
-### testProviders
-An array of providers loaded only during the testing.
+### `testProviders`
+
+Um arranjo de provedores carregados apenas durante os testes:
 
 ```json
 {
