@@ -6,57 +6,57 @@
         "name": "root",
         "docs": [
           {
-            "title": "Introduction",
+            "title": "Introdução",
             "permalink": "introduction",
             "contentPath": "introduction.md"
           },
           {
-            "title": "Installation",
+            "title": "Instalação",
             "permalink": "installation",
             "contentPath": "installation.md"
           },
           {
-            "title": "Release process",
+            "title": "Processo de Lançamento",
             "permalink": "release-process",
             "contentPath": "release-process.md"
           }
         ]
       },
       {
-        "name": "Fundamentals",
+        "name": "Fundamentos",
         "docs": [
           {
-            "title": "Application",
+            "title": "Aplicação",
             "permalink": "application",
             "contentPath": "fundamentals/application.md"
           },
           {
-            "title": "AdonisRC file",
+            "title": "Ficheiro AdonisRC",
             "permalink": "adonisrc-file",
             "contentPath": "fundamentals/adonisrc-file.md"
           },
           {
-            "title": "Config",
+            "title": "Configuração",
             "permalink": "config",
             "contentPath": "fundamentals/config.md"
           },
           {
-            "title": "Environment variables",
+            "title": "Variáveis de Ambiente",
             "permalink": "environment-variables",
             "contentPath": "fundamentals/environment-variables.md"
           },
           {
-            "title": "TypeScript build process",
+            "title": "Processo de Construção da TypeScript",
             "permalink": "typescript-build-process",
             "contentPath": "fundamentals/typescript-build-process.md"
           },
           {
-            "title": "Deployment",
+            "title": "Implementação em Produção",
             "permalink": "deployment",
             "contentPath": "fundamentals/deployment.md"
           },
           {
-            "title": "Async local storage",
+            "title": "Armazenamento Local Assíncrono",
             "permalink": "async-local-storage",
             "contentPath": "fundamentals/async-local-storage.md"
           }
