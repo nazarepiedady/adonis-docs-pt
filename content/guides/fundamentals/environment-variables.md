@@ -1,12 +1,14 @@
 ---
-summary: Learn how to define and validate environment variables in AdonisJS
+summary: Saiba como definir e validar variáveis de ambiente na AdonisJS
 ---
 
-Instead of maintaining multiple config files, one for each environment, AdonisJS uses [environment variables](https://en.wikipedia.org/wiki/Environment_variable) for values that often change between your local and the production environment. For example: the database credentials, a boolean flag to toggle templates caching, and so on.
+No lugar de manter vários ficheiros de configuração, um para cada ambiente, a AdonisJS usa [variáveis de ambiente](https://en.wikipedia.org/wiki/Environment_variable) para valores que muitas vezes mudam entre o nosso ambiente local e de produção. Por exemplo: as credenciais de base de dados, um sinal booleano para alternar o armazenamento de consulta imediata de modelos de marcação, e assim por diante.
 
-## Access environment variables
+<span id="access-environment-variables"></span>
 
-Node.js natively allows you to access the environment variables using the `process.env` object. For example:
+## Acessar as Variáveis de Ambiente
+
+A Node.js permite-nos de maneira nativa acessar as variáveis de ambiente usando o objeto `process.env`. Por exemplo:
 
 ```ts
 process.env.NODE_ENV
@@ -14,32 +16,34 @@ process.env.HOST
 process.env.PORT
 ```
 
-However, we recommend **using the AdonisJS Env provider**, as it further improves the API to work with environment variables by adding support for validations and provides static type information.
+No entanto, recomendamos **usar o fornecedor de ambiente da AdonisJS**, visto que melhora mais a API para trabalhar com as variáveis de ambiente adicionando suporte para validações e fornecer informação de tipo estático:
 
 ```ts
 import Env from '@ioc:Adonis/Core/Env'
 
 Env.get('NODE_ENV')
 
-// With default values
+// Com valores padrão
 Env.get('HOST', '0.0.0.0')
 Env.get('PORT', 3333)
 ```
 
-## Why validate environment variables?
+<span id="why-validate-environment-variables"></span>
 
-Environment variables are injected from outside-in to your application, and you have little or no control over them within your codebase.
+## Porquê Validar as Variáveis de Ambiente?
 
-For example, a section of your codebase relies on the existence of the `SESSION_DRIVER` environment variable.
+As variáveis de ambiente são injetadas de fora para dento da nossa aplicação, e temos pouco ou nenhum controlo sobre as mesmas dentro da nossa base de código.
+
+Por exemplo, uma seção da nossa base de código depende da existência da variável de ambiente `SESSION_DRIVER`:
 
 ```ts
 const driver = process.env.SESSION_DRIVER
 
-// Dummy code
+// Código de reprodução
 await Session.use(driver).read()
 ```
 
-There is no guarantee that at the time of running the program, the `SESSION_DRIVER` env variable exists and has the correct value. Therefore you must validate it vs. getting an error later in the program lifecycle complaining about the **"undefined"** value.
+Não existe garantia de que no momento de executar o programa, a variável de ambiente `SESSION_DRIVER` exista e tenha o valor correto. Portanto devemos validá-la vs. receber um erro depois no ciclo de vida do programa reclamando sobre o valor **"undefined"**:
 
 ```ts
 const driver = process.env.SESSION_DRIVER
@@ -53,13 +57,15 @@ if (!['memory', 'file', 'redis'].includes(driver)) {
 }
 ```
 
-Now imagine writing these conditionals everywhere inside your codebase? **Well, not a great development experience**.
+Agora imagina escrever estas condições em toda parte dentro da nossa base de código? **Bem, não é uma excelente experiência de desenvolvimento**.
 
-## Validating environment variables
+<span id="validating-environment-variables"></span>
 
-AdonisJS allows you to **optionally validate** the environment variables very early in the lifecycle of booting your application and refuses to start if any validation fails.
+## Validando Variáveis de Ambiente
 
-You begin by defining the validation rules inside the `env.ts` file.
+A AdonisJS permite-nos **validar opcionalmente** as variáveis de ambiente desde muito cedo no ciclo de vida da inicialização da nossa aplicação e que recusa-se a iniciar se qualquer validação falhar.
+
+Nós começamos por definir as regras de validação dentro do ficheiro `env.ts`:
 
 ```ts
 import Env from '@ioc:Adonis/Core/Env'
@@ -75,42 +81,45 @@ export default Env.rules({
 })
 ```
 
-Also, AdonisJS extracts the static type information from the validation rules and provides IntelliSense for the validated properties.
+Além disto, a AdonisJS extrai a informação de tipo estático a partir das regras de validação e fornece sensor inteligente para as propriedades validadas.
 
 ![](https://res.cloudinary.com/adonis-js/image/upload/q_auto,f_auto/v1617158425/v5/adonis-env-intellisense.jpg)
 
-## Schema API
+<span id="schema-api"></span>
 
-Following is the list of available methods to validate the environment variables. 
+## API `Schema`
 
-### Env.schema.string
-Validates the value to check if it exists and if it is a valid string. Empty strings fail the validations, and you must use the optional variant to allow empty strings.
+A seguir está a lista de métodos disponíveis para validar as variáveis de ambiente.
+
+### `Env.schema.string`
+
+Valida o valor para verificar se existe e se é uma sequência de caracteres válida. As sequências de caracteres vazias reprova as validações, devemos usar a variante opcional para permitir sequências de caracteres vazias:
 
 ```ts
 {
   APP_KEY: Env.schema.string()
 }
 
-// Mark it as optional
+// Marcar como opcional
 {
   APP_KEY: Env.schema.string.optional()
 }
 ```
 
-You can also force the value to have one of the pre-defined formats.
+Nós também podemos forçar o valor à ter um dos formatos pré-definidos:
 
 ```ts
-// Must be a valid host (url or ip)
+// Deve ser um hospedeiro válido (URL ou IP)
 Env.schema.string({ format: 'host' })
 
-// Must be a valid URL
+// Deve ser uma URL válida
 Env.schema.string({ format: 'url' })
 
-// Must be a valid email address
+// Deve ser um endereço de correio-eletrónico válido
 Env.schema.string({ format: 'email' })
 ```
 
-When validating the `url` format, you can also define additional options to force/ignore the `tld` and `protocol`.
+Quando validamos o formato de `url`, também podemos definir opções adicionais para forçar ou ignorar o `tdl` ou `protocol`:
 
 ```ts
 Env.schema.string({ format: 'url', tld: false, protocol: false })
@@ -118,19 +127,19 @@ Env.schema.string({ format: 'url', tld: false, protocol: false })
 
 ---
 
-### Env.schema.boolean
+### `Env.schema.boolean`
 
-Enforces the value to be a valid string representation of a boolean. Following values are considered as valid booleans and will be converted to `true` or `false`.
+Força o valor à ser uma representação de sequência de caracteres dum booleano. Os valores seguintes são considerados como booleanos válidos e serão convertidos para `true` ou `false`:
 
-- `'1', 'true'` are casted to `Boolean(true)`
-- `'0', 'false'` are casted to `Boolean(false)`
+- `'1', 'true'` são moldados para `Boolean(true)`
+- `'0', 'false'` são moldados para `Boolean(false)`
 
 ```ts
 {
   CACHE_VIEWS: Env.schema.boolean()
 }
 
-// Mark it as optional
+// Marcar como opcional
 {
   CACHE_VIEWS: Env.schema.boolean.optional()
 }
@@ -138,16 +147,16 @@ Enforces the value to be a valid string representation of a boolean. Following v
 
 ---
 
-### Env.schema.number
+### `Env.schema.number`
 
-Enforces the value to be a valid string representation of a number.
+Força o valor à ser uma representação de sequência de caracteres válida dum número:
 
 ```ts
 {
   PORT: Env.schema.number()
 }
 
-// Mark it as optional
+// Marcar como opcional
 {
   PORT: Env.schema.number.optional()
 }
@@ -155,9 +164,9 @@ Enforces the value to be a valid string representation of a number.
 
 ---
 
-### Env.schema.enum
+### `Env.schema.enum`
 
-Forces the value to be one of the pre-defined values.
+Força o valor à ser um dos valores pré-definidos:
 
 ```ts
 {
@@ -166,7 +175,7 @@ Forces the value to be one of the pre-defined values.
     .enum(['development', 'production'] as const)
 }
 
-// Mark it as optional
+// Marcar como opcional
 {
   NODE_ENV: Env
     .schema
@@ -177,8 +186,11 @@ Forces the value to be one of the pre-defined values.
 
 ---
 
-### Custom functions
-For every other validation use case, you can define your custom functions.
+<span id="custom-functions"></span>
+
+### Funções Personalizadas
+
+Para todo outro caso de uso de validação, podemos definir as nossas funções personalizadas:
 
 ```ts
 {
@@ -196,13 +208,15 @@ For every other validation use case, you can define your custom functions.
 }
 ```
 
-- Make sure to always return the value after validating it.
-- The return value can be different from the initial input value.
-- We infer the static type from the return value. In this case, `Env.get('PORT')` is a number.
+- Nós devemos certificar-nos de sempre retornar o valor depois de validá-lo.
+- O valor de retorno pode ser diferente do valor da entrada inicial.
+- Nós inferimos o tipo estático a partir do valor de retorno. Neste caso, `Env.get('PORT')` é um número.
 
-## Defining variables in the development
+<span id="defining-variables-in-the-development"></span>
 
-During development, you can define environment variables inside the `.env` file stored in your project's root, and AdonisJS will automatically process it.
+## Definindo Variáveis no Desenvolvimento
+
+Durante o desenvolvimento, podemos definir variáveis de ambiente dentro do ficheiro `.env` armazenado na raiz do nosso projeto, e a AdonisJS irá processá-lo automaticamente:
 
 ```dotenv
 // title: .env
@@ -214,9 +228,11 @@ SESSION_DRIVER=cookie
 CACHE_VIEWS=false
 ```
 
-### Variable substitution 
+<span id="variable-substitution"></span>
 
-Along with the standard support for parsing the `.env` file, AdonisJS also allows variable substitution.
+### Substituição de Variável
+
+Junto com o suporte padrão para analise do ficheiro `.env`, a AdonisJS também permite a substituição de variável:
 
 ```sh
 HOST=localhost
@@ -226,7 +242,7 @@ URL=$HOST:$PORT
 // highlight-end
 ```
 
-All `letter`, `numbers`, and the underscore (`_`) after the dollar (`$`) sign are parsed as variables. If your variable contains any other character, then you must wrap it inside the curly braces `{}`.
+Todos os `letter`, `numbers`, e sublinhados (`_`) depois do sinal (`$`) do dólar são analisados como variáveis. Se a nossa variável contiver qualquer outro carácter, então devemos envolvê-la dentro das chavetas `{}`:
 
 ```sh
 REDIS-USER=foo
@@ -235,32 +251,40 @@ REDIS-URL=localhost@${REDIS-USER}
 // highlight-end
 ```
 
-### Escape the `$` sign
+<span id="escape-the--sign"></span>
 
-If the value of a variable contains a `$` sign, you must escape it to prevent variable substitution. 
+### Escapar o Sinal `$`
+
+Se o valor duma variável contiver um sinal `$`, devemos escapa-lo para evitar a substituição de variável: 
 
 ```sh
 PASSWORD=pa\$\$word
 ```
 
-### Do not commit the `.env` file
+<span id="do-not-commit-the-env-file"></span>
 
-The `.env` files are not portable. Meaning, the database credentials on your local and your production environment will always be different, and hence there is no point in pushing the `.env` to the version control.
+### Não Consolidar o Ficheiro `.env`
 
-You must consider the `.env` file personal to your local environment and create a separate `.env` file on the production or the staging server (and keep it secure).
+Os ficheiros `.env` não portáteis. Querendo dizer que, as credenciais da base de dados no nosso ambiente local e de produção sempre serão diferentes, por isto não precisamos de empurrar o `.env` para o controlo de versão.
 
-The `.env` file can be at any location on your server. For example, You can store it inside `/etc/myapp/.env` and then inform AdonisJS about it as follows.
+Nós devemos considerar o ficheiro `.env` pessoal ao nosso ambiente local e criar um ficheiro `.env` separado no servidor de produção ou de encenação (e mantê-lo seguro).
+
+O ficheiro `.env` pode estar em qualquer localização no nosso servidor. Por exemplo, podemos armazená-lo dentro de `/etc/myapp/.env` e depois informar a AdonisJS sobre ele como se segue:
 
 ```sh
 ENV_PATH=/etc/myapp/.env node server.js
 ```
 
-## Defining variables during tests
+<span id="defining-variables-during-tests"></span>
 
-AdonisJS will look for the `.env.test` file when the application is started with the `NODE_ENV=test` environment variable.
+## Definindo Variáveis Durante os Testes
 
-The variables defined inside the `.env.test` file are automatically merged with the `.env` file. This allows you to use a different database or a different session driver when writing tests.
+A AdonisJS procurará pelo ficheiro `.env.test` quando a aplicação for iniciada com a variável de ambiente `NODE_ENV=test`.
 
-## Defining variables in production
+As variáveis definidas dentro do ficheiro `.env.test` são automaticamente combinadas com o ficheiro `.env`. Isto permite-nos usar uma base de dados diferente ou um condutor de sessão diferente quando escrevemos testes.
 
-Most modern-day hosting providers have first-class support for defining environment variables within their web console. Make sure you read the documentation for your hosting provider and define the environment variables before deploying your AdonisJS app.
+<span id="defining-variables-in-production"></span>
+
+## Definindo Variáveis em Produção
+
+A maioria dos provedores de hospedagem modernos têm suporte de primeira classe para definição de variáveis de ambiente dentro da sua consola da Web. Nós devemos certificar-nos de ler a documentação para o nosso provedor de hospedagem e definir as variáveis de ambiente antes de implementar a nossa aplicação de AdonisJS em produção.
