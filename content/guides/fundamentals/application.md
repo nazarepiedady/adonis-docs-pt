@@ -10,17 +10,19 @@ Ao passo que a execução do comando `node ace repl` inicia a aplicação no amb
 
 O ambiente da aplicação desempenha uma papel essencial em decidir quais ações realizar. Por exemplo, o ambiente **web** não regista ou inicializa os provedores de Ace.
 
-Tu podes acessar o ambiente atual da aplicação usando a propriedade `environment`. A seguir está a lista dos ambientes de aplicação conhecidos:
+Nós podemos acessar o ambiente atual da aplicação usando a propriedade `environment`. A seguir está a lista dos ambientes de aplicação conhecidos:
 
-- O ambiente `web` refere-se ao processo iniciado para o servidor de HTTP.
-- O ambiente `console` refere-se aos comandos do Ace exceto para o comando REPL.
-- O ambiente `repl` refere-se aos processos iniciado com o uso do comando `node ace repl`.
-- O ambiente `test` refere-se ao processo iniciado com o uso do comando `node ace test`.
+- `web`: o ambiente refere-se ao processo iniciado para o servidor de HTTP.
+- `console`: o ambiente refere-se aos comandos do Ace exceto para o comando REPL.
+- `repl`: o ambiente refere-se aos processos iniciado com o uso do comando `node ace repl`.
+- `test`: o ambiente refere-se ao processo iniciado com o uso do comando `node ace test`.
 
 ```ts
 import Application from '@ioc:Adonis/Core/Application'
 console.log(Application.environment)
 ```
+
+<span id="boot-lifecycle"></span>
 
 ## Ciclo de Vida da Inicialização
 
@@ -42,7 +44,7 @@ H - ->|Executa o método de desligamento de provedores| I(state:shutdown)
 
 -->
 
-Tu podes acessar o contentor de vinculações IoC, uma vez que o estado da aplicação for definido para `booted` ou `ready`. Uma tentativa para acessar o contentor de vinculações antes do estado inicializado resulta em uma exceção.
+Nós podemos acessar o contentor de vinculações IoC, uma vez que o estado da aplicação for definido para `booted` ou `ready`. Uma tentativa para acessar o contentor de vinculações antes do estado inicializado resulta em uma exceção.
 
 Por exemplo, se tiveres um provedor de serviço que queira resolver as vinculações do contentor, deverias escrever a declaração importação dentro dos métodos `boot` ou `ready`.
 
@@ -80,9 +82,11 @@ export default class AppProvider {
 }
 ```
 
+<span id="version"></span>
+
 ## Versão
 
-Tu podes acessar a versão da aplicação e da abstração usando as propriedades `version` e `adonisVersion`.
+Nós podemos acessar a versão da aplicação e da abstração usando as propriedades `version` e `adonisVersion`.
 
 A propriedade `version` refere-se à versão dentro do ficheiro `package.json` da sua aplicação. A propriedade `adonisVersion` refere-se à versão instalada do pacote `@adonisjs/core`:
 
@@ -101,9 +105,11 @@ console.log(Application.version!.minor)
 console.log(Application.version!.patch)
 ```
 
+<span id="node-environment"></span>
+
 ## Ambiente da Node
 
-Tu podes acessar o ambiente `node` usando a propriedade `nodeEnvironment`. O valor é uma referência à variável `NODE_ENV`. No entanto, o valor será normalizado mais adiante para ser consistente:
+Nós podemos acessar o ambiente `node` usando a propriedade `nodeEnvironment`. O valor é uma referência à variável `NODE_ENV`. No entanto, o valor será normalizado mais adiante para ser consistente:
 
 ```ts
 import Application from '@ioc:Adonis/Core/Application'
@@ -152,13 +158,15 @@ Application.inTest
 Application.nodeEnvironment === 'test'
 ```
 
+<span id="make-paths-to-project-directories"></span>
+
 ## Criar Caminhos para os Diretórios do Projeto
 
-Tu podes fazer uso do módulo de aplicação para criar caminhos absolutos para diretórios conhecidos do projeto.
+Nós podemos fazer uso do módulo de aplicação para criar caminhos absolutos para diretórios conhecidos do projeto.
 
 ### `configPath`
 
-Criar um caminho absoluto para um ficheiro dentro do diretório `config`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `config`:
 
 ```ts
 Application.configPath('shield.ts')
@@ -168,7 +176,7 @@ Application.configPath('shield.ts')
 
 ### `publicPath`
 
-Criar um caminho absoluto para um ficheiro dentro do diretório `public`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `public`:
 
 ```ts
 Application.publicPath('style.css')
@@ -178,7 +186,7 @@ Application.publicPath('style.css')
 
 ### `databasePath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `database`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `database`:
 
 ```ts
 Application.databasePath('seeders/Database.ts')
@@ -188,7 +196,7 @@ Application.databasePath('seeders/Database.ts')
 
 ### `migrationsPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `migrations`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `migrations`:
 
 ```ts
 Application.migrationsPath('users.ts')
@@ -198,7 +206,7 @@ Application.migrationsPath('users.ts')
 
 ### `seedsPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `seeds`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `seeds`:
 
 ```ts
 Application.seedsPath('Database.ts')
@@ -208,7 +216,7 @@ Application.seedsPath('Database.ts')
 
 ### `resourcesPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `resources`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `resources`:
 
 ```ts
 Application.resourcesPath('scripts/app.js')
@@ -218,7 +226,7 @@ Application.resourcesPath('scripts/app.js')
 
 ### `viewsPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `views`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `views`:
 
 ```ts
 Application.viewsPath('welcome.edge')
@@ -228,7 +236,7 @@ Application.viewsPath('welcome.edge')
 
 ### `startPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `start`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `start`:
 
 ```ts
 Application.startPath('routes.ts')
@@ -238,7 +246,7 @@ Application.startPath('routes.ts')
 
 ### `tmpPath`
 
-Criar um caminho absolute para um ficheiro dentro do diretório `tmp`:
+Cria um caminho absoluto para um ficheiro dentro do diretório `tmp`:
 
 ```ts
 Application.tmpPath('uploads/avatar.png')
@@ -248,7 +256,7 @@ Application.tmpPath('uploads/avatar.png')
 
 ### `makePath`
 
-Criar um caminho absolute a partir da raiz da aplicação:
+Cria um caminho absoluto a partir da raiz da aplicação:
 
 ```ts
 Application.makePath('app/Middleware/Auth.ts')
@@ -280,7 +288,7 @@ Application.appRoot
 
 ### `rcFile`
 
-Refere-se ao [ficheiro AdonisRc](./adonisrc-file) analisado:
+Refere-se ao [ficheiro `adonisrc`](./adonisrc-file) analisado:
 
 ```ts
 Application.rcFile.providers
@@ -307,7 +315,7 @@ Refere-se ao módulo de auxiliares:
 Application.helpers.string.snakeCase('helloWorld')
 ```
 
-Tu podes também acessar os módulos auxiliares diretamente:
+Nós podemos também acessar os módulos auxiliares diretamente:
 
 ```ts
 import { string } from '@ioc:Adonis/Core/Helpers'
@@ -325,7 +333,7 @@ Refere-se ao registador de aplicação:
 Application.logger.info('hello world')
 ```
 
-Tu podes também acessar o módulo registador diretamente:
+Nós podemos também acessar o módulo registador diretamente:
 
 ```ts
 import Logger from '@ioc:Adonis/Core/Logger'
@@ -343,7 +351,7 @@ Refere-se ao módulo de configuração:
 Application.config.get('app.secret')
 ```
 
-Tu podes acessar o módulo de configuração diretamente:
+Nós podemos acessar o módulo de configuração diretamente:
 
 ```ts
 import Config from '@ioc:Adonis/Core/Config'
@@ -361,7 +369,7 @@ Refere-se ao módulo de ambiente:
 Application.env.get('APP_KEY')
 ```
 
-Tu podes também acessar o módulo de ambiente diretamente:
+Nós podemos também acessar o módulo de ambiente diretamente:
 
 ```ts
 import Env from '@ioc:Adonis/Core/Env'
