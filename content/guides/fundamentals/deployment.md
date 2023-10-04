@@ -115,7 +115,7 @@ Usando o comando `node ace migration:run --force`, podemos migrar a nossa base d
 
 ### Quando Migrar
 
-Além disto, seria melhor se sempre executarmos as migrações antes de reiniciar o servidor. Então, se a migração falhar, não reiniciar o servidor.
+Além disto, seria melhor se sempre que executarmos as migrações antes de reiniciar o servidor. Então, se a migração falhar, não reiniciar o servidor.
 
 Usando um serviço administrado como Cleavr ou Heroku, podem lidar com este caso de uso automaticamente. De outro modo, teremos de executar o programa de migração dentro duma conduta de CI/CD ou executá-lo manualmente através de SSH.
 
