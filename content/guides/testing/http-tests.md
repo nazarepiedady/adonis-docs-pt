@@ -1,4 +1,4 @@
-AdonisJS ships with the Japa [API client](https://japa.dev/plugins/api-client) plugin. You can use it to test your application HTTP endpoints.
+AdonisJS ships with the Japa [API client](https://v2.japa.dev/docs/plugins/api-client) plugin. You can use it to test your application HTTP endpoints.
 
 The primary use case for the API client is to test JSON responses. However, there are no technical limitations around other response types like HTML, or even plain text.
 
@@ -24,7 +24,7 @@ test.group('List users', () => {
 ```
 
 :::note
-Please read the [Japa documentation](https://japa.dev/plugins/api-client#making-api-calls) to view all the available methods and assertions. This guide only documents the additional methods added by AdonisJS
+Please read the [Japa documentation](https://v2.japa.dev/plugins/api-client#making-api-calls) to view all the available methods and assertions. This guide only documents the additional methods added by AdonisJS
 :::
 
 ## Open API testing
@@ -59,7 +59,7 @@ test('get a paginated list of existing posts', async ({ client }) => {
 - The assertion will use the **request method**, the **endpoint** and **response status code** to find the expected response schema.
 - The actual response body is validated against the matching schema. 
 
-Do note, only the shape of the response is tested and not the actual values. Therefore, you may have to write additonal assertions. For example:
+Do note, only the shape of the response is tested and not the actual values. Therefore, you may have to write additional assertions. For example:
 
 ```ts
 // Assert that response is as per the schema
@@ -254,7 +254,7 @@ test('a user can update avatar', async ({ client, assert }) => {
 ## Additional assertions
 You can validate the server response using the assertions available on the `response` object.
 
-AdonisJS provides the following additional methods on top of the existing [Japa assertions](https://japa.dev/plugins/api-client#assertions-api).
+AdonisJS provides the following additional methods on top of the existing [Japa assertions](https://v2.japa.dev/docs/plugins/api-client#assertions-api).
 
 ### assertSession
 Assert the given session exists. Optionally, you can also assert the session value.
