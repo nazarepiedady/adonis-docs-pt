@@ -10,7 +10,7 @@ Along with the standard authentication, AdonisJS also ships with a package to he
 
 ```sh
 // title: Install
-npm i @adonisjs/ally
+npm i @adonisjs/ally@4.1.5
 ```
 
 ```sh
@@ -251,7 +251,7 @@ Also, for some of the drivers (e.g., Google), the list of the scopes is too long
 :::warning
 
 If you want to customize the Discord driver, it require to have the `identify` scope present to work properly.
-You can find more informations about it [here](https://discord.com/developers/docs/resources/user#get-current-user).
+You can find more information about it [here](https://discord.com/developers/docs/resources/user#get-current-user).
 
 :::
 
