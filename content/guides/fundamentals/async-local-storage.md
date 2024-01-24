@@ -1,12 +1,12 @@
-As per the [Node.js official documentation](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html): "AsyncLocalStorage is used to create asynchronous state within callbacks and promise chains. **It allows storing data throughout the lifetime of a web request or any other asynchronous duration. It is similar to thread-local storage in other languages**."
+De acordo com a [documentação oficial da Node.js](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html): "`AsyncLocalStorage` é usado para criar um estado assíncrono dentro das funções de resposta e cadeias da promessa. **Este permite armazenar dados durante todo o tempo de vida duma requisição da Web ou qualquer outra duração assíncrona. É semelhante ao armazenamento local da linha em outras linguagens**".
 
-To simplify the explanation further, AsyncLocalStorage allows you to store a state when executing an async function and then make it available to all the code paths within that function. For example:
+Para simplificar ainda mais a explicação, `AsyncLocalStorage` permite-nos armazenar um estado quando executamos uma função assíncrona e depois o tornamos disponível a todos caminhos de código dentro desta função. Por exemplo:
 
 :::note
-The following is an imaginary example. However, you can still follow along by creating an empty Node.js project.
+O seguinte é um exemplo imaginário. No entanto, ainda podemos acompanhar o processo criando um projeto de Node.js vazio.
 :::
 
-Let's create an instance of `AsyncLocalStorage` and export it from its module. This will allow multiple modules to access the same storage instance.
+Vamos criar uma instância do `AsyncLocalStorage` e exportá-lo a partir do seu módulo. Isto permitirá vários módulos acessarem a mesma instância do armazenamento:
 
 ```ts
 // title: storage.ts
@@ -14,7 +14,7 @@ import { AsyncLocalStorage } from 'async_hooks'
 export const storage = new AsyncLocalStorage()
 ```
 
-Create the main file. It will use the `storage.run` method to execute an async function with the initial state.
+Criamos o ficheiro principal. Este usará o método `storage.run` para executar uma função assíncrona com o estado inicial:
 
 ```ts
 // title: main.ts
@@ -38,7 +38,7 @@ run(2)
 run(3)
 ```
 
-Finally, `ModuleA` can access the state using the `storage.getStore()` method.
+Finalmente, `ModuleA` pode acessar o estado usando o método `storage.getStore()`:
 
 ```ts
 // title: ModuleA.ts
@@ -57,20 +57,23 @@ export default class ModuleA {
 }
 ```
 
-Like `ModuleA`, `ModuleB` can also access the same state using the `storage.getStore` method. 
+Tal como `ModuleA`, o `ModuleB` também pode acessar o mesmo estado usando o método `storage.getStore`.
 
-In other words, the entire chain of operations has access to the same state initially set inside the `main.js` file during the `storage.run` method call.
+Em outras palavras, a cadeia inteira de operações tem acesso ao mesmo estado inicialmente definido dentro do ficheiro `main.js` durante a chamada do método `storage.run`.
 
-## What is the need for Async Local Storage?
-Unlike other languages like PHP, Node.js is not a threaded language.
+## Qual é a Necessidade do Armazenamento Local Assíncrono?
 
-In PHP, every HTTP request creates a new thread, and each thread has its memory. This allows you to store the state into the global memory and access it anywhere inside your codebase.
+<span id="#what-is-the-need-for-async-local-storage"></span>
 
-In Node.js, you cannot save data to a global object and keep it isolated between HTTP requests. This is impossible because Node.js runs in a single thread and shares the memory across all the HTTP requests.
+Ao contrário de outras linguagens como a PHP, a Node.js não é uma linguagem processada em linha.
 
-This is where Node.js gains a lot of performance, as it does not have to boot the application for every single HTTP request.
+Na PHP, toda requisição de HTTP cria uma nova linha de processamento, cada linha de processamento tem sua memória. Isto permite-nos armazenar o estado numa memória global e acessá-lo em qualquer parte dentro da nossa base de código.
 
-However, it also means that you have to pass the state around as function arguments or class arguments, since you cannot write it to the global object. Something like the following:
+Na Node.js, não podemos guardar dados num objeto global e mantê-los isolados dentro das requisições da HTTP. Isto é impossível porque a Node.js executa numa única linha de processamento e partilha a memória entre todas as requisições de HTTP.
+
+Isto é onde a Node.js ganha muito desempenho, uma vez que não tem inicializar a aplicação para cada requisição de HTTP.
+
+No entanto, isto também significa que temos de passar o estado como argumentos de função ou argumentos de classe, uma vez que não podemos escrevê-lo ao objeto global. Algo como o seguinte:
 
 ```ts
 http.createServer((req, res) => {
@@ -86,9 +89,11 @@ class ModuleA {
 }
 ```
 
-> Async Local storage addresses this use case, as it allows isolated state between multiple async operations.
+> O armazenamento local assíncrono resolve este caso de uso, uma vez que permite o estado isolado entre várias operações assíncronas.
 
 ## How does AdonisJS uses ALS?
+
+<span id="#how-does-adonisjs-uses-als"></span>
 
 ALS stands for **AsyncLocalStorage**. AdonisJS uses the async local storage during the HTTP requests and set the [HTTP context](../http/context.md) as the state. The code flow looks similar to the following.
 
@@ -130,6 +135,9 @@ export default class User extends BaseModel {
 The model static properties (not methods) cannot access the HTTP context as they are evaluated when importing the model. So you must understand the code execution path and [use ALS carefully](#things-to-be-aware-of-when-using-als).
 
 ## Usage
+
+<span id="#usage"></span>
+
 To use ALS within your apps, you must enable it first inside the `config/app.ts` file. Feel free to create the property manually if it doesn't exist.
 
 ```ts
@@ -156,6 +164,9 @@ class SomeService {
 ```
 
 ## How should it be used?
+
+<span id="#how-should-it-be-used"></span>
+
 At this point, you can consider Async Local Storage as a request-specific global state. [Global state or variables are generally considered bad](https://wiki.c2.com/?GlobalVariablesAreBad) as they make testing and debugging a lot harder.
 
 Node.js Async Local Storage can get even trickier if you are not careful enough to access the local storage within the HTTP request.
@@ -163,6 +174,9 @@ Node.js Async Local Storage can get even trickier if you are not careful enough 
 We recommend you still write your code as you were writing earlier (passing `ctx` by reference), even if you have access to the Async Local Storage. Passing data by reference conveys a clear execution path and makes it easier to test your code in isolation.
 
 ### Then why have you introduced Async Local Storage?
+
+<span id="#then-why-have-you-introduced-async-local-storage"></span>
+
 Async Local Storage shines with APM tools, which collect performance metrics from your app to help you debug and pinpoint problems.
 
 Before ALS, there was no simple way for APM tools to relate different resources with a given HTTP request. For example, It could show you how much time was taken to execute a given SQL query but could not tell you which HTTP request executed that query.
@@ -170,14 +184,23 @@ Before ALS, there was no simple way for APM tools to relate different resources 
 After ALS, now all this is possible without you have to touch a single line of code. **AdonisJS is going to use ALS to collect metrics using its application-level profiler**.
 
 ## Things to be aware of when using ALS
+
+<span id="#things-to-be-aware-of-when-using-als"></span>
+
 You are free to use ALS if you think it makes your code more straightforward and you prefer global access instead of passing everything by reference.
 
 However, be aware of the following situations that can easily lead to memory leaks or unstable behavior of the program.
 
 ### Top-level access
+
+<span id="#top-level-access"></span>
+
 Never access the Async Local Storage at the top level of any module. For example:
 
 #### ❌ Does not work
+
+<span id="#-does-not-work"></span>
+
 In Node.js, the modules are cached. So `HttpContext.get()` method will be executed only once during the first HTTP request and holds its `ctx` forever during the lifecycle of your process.
 
 ```ts
@@ -193,6 +216,8 @@ export default class UsersController {
 
 #### ✅ Works
 
+<span id="#-works"></span>
+
 Instead, you should move the `.get` call to within the `index` method.
 
 ```ts
@@ -204,9 +229,14 @@ export default class UsersController {
 ```
 
 ### Inside static properties
+
+<span id="#inside-static-properties"></span>
+
 The static properties (not methods) of any class are evaluated as soon that module is imported, and hence you should not access the `ctx` within the static properties.
 
 #### ❌ Does not work
+
+<span id="#-does-not-work-1"></span>
 
 In the following example, when you import the `User` model inside a controller, the `HttpContext.get()` code will be executed and cached forever. So either you will receive `null`, or you end up caching the tenant connection from the first request.
 
@@ -219,6 +249,9 @@ export default class User extends BaseModel {
 ```
 
 #### ✅ Works
+
+<span id="#-works-1"></span>
+
 Instead, you should move the `HttpContext.get` call to inside the `query` method.
 
 ```ts
@@ -233,6 +266,9 @@ export default class User extends BaseModel {
 ```
 
 ### Event handlers
+
+<span id="#event-handlers"></span>
+
 The handler of an event emitted during an HTTP request can get access to the request context using `HttpContext.get()` method. For example:
 
 ```ts
