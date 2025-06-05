@@ -14,7 +14,7 @@
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
     "@octokit/core": "^4.1.0",
-    "@symfony/webpack-encore": "^4.1.1",
+    "@symfony/webpack-encore": "^5.1.0",
     "adonis-preset-ts": "^2.1.0",
     "alpinejs": "^3.10.5",
     "eslint": "^8.27.0",
